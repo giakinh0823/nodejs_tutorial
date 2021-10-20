@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --inspect src/app.js",
-    "watch": "node-sass -w src/resources/scss -o src/public/css"
+    "watch": "node-sass -w src/resources/scss -o src/public/css",
+    "beautiful": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -25,13 +26,19 @@
     "url": "https://github.com/giakinh0823/nodejs_tutorial/issues"
   },
   "homepage": "https://github.com/giakinh0823/nodejs_tutorial#readme",
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --tab--width 4 --write"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.3.4"
   },
   "devDependencies": {
+    "husky": "^7.0.2",
+    "lint-staged": "^11.2.3",
     "morgan": "^1.10.0",
     "node-sass": "^6.0.1",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "prettier": "^2.4.1"
   }
 }

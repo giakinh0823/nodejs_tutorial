@@ -1,21 +1,15 @@
-const { response } = require("express");
+const { response } = require('express');
 
-class NewsController{
+class NewsController {
+  // [GET] /news
+  index(req, res) {
+    res.render('news');
+  }
 
-    // [GET] /news
-    index(req, res){
-        res.render('news');
-    };
-
-    // [GET] /news/:slug
-    show(req, res){
-        res.send('News details')
-    }
-
+  // [GET] /news/:slug
+  show(req, res) {
+    res.send('News details');
+  }
 }
 
-
-
-module.exports = new NewsController;
-
-
+module.exports = new NewsController();
