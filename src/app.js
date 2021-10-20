@@ -6,30 +6,31 @@ const path = require('path')
 const app = express()
 const port = 3000
 
+//middleware
+app.use(express.urlencoded({
+  extended: true
+})) // Nhận dữ liệu từ form
+app.use(express.json()) // Nhận dữ liệu từ code javascript
+
 //static 
 app.use(express.static(path.join(__dirname, 'public')))
 
 // HTTP logger
-app.use(morgan('combined'))
+app.use(morgan('combined'));
 
 //Template engine
 app.engine('hbs', exphbs({
   extname: '.hbs'
-}))
-app.set('view engine', 'hbs')
-app.set('views', path.join(__dirname, 'resources/views'))
+}));
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'resources/views'));
 
 //route
-app.get('/', (req, res) => {
-  res.render('home')
-})
-
-app.get('/news', (req, res) => {
-  res.render('news')
-})
+const route = require('./routes');
+route(app);
 
 
 // Listion port
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+  console.log(`listening at http://localhost:${port}`);
+});
