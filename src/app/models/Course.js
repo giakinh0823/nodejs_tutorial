@@ -10,18 +10,30 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 
-const Course = new Schema({
+const CourseSchema = new Schema({
   id: ObjectId,
-  name: {type: String, required: true},
-  description: {type: String},
-  image: {type: String, maxLength: 500},
-  slug: {type: String, slug: 'name',unique: true},
-  videoId: {type: String, maxLength: 200},
-  level: {type: String, maxLength: 200},
-}, { 
+  name: { type: String, required: true },
+  description: { type: String },
+  image: { type: String, maxLength: 500 },
+  slug: { type: String, slug: 'name', unique: true },
+  videoId: { type: String, maxLength: 200 },
+  level: { type: String, maxLength: 200 },
+}, {
   timestamps: true
 });
 
-Course.plugin(mongooseDelete, { deletedAt : true, overrideMethods: 'all'});
+//Custom query helpers
+CourseSchema.query.sortable =function (req){
+  if (req.query.hasOwnProperty('_sort')) {
+    const isValiedType = ['asc', 'desc'].includes(req.query.type);
+    return this.sort({
+      [req.query.column]: isValiedType ? req.query.type : 'desc'
+    })
+  }
+  return this
+}
 
-module.exports = mongoose.model('Course', Course);
+CourseSchema.plugin(mongooseDelete, { deletedAt: true, overrideMethods: 'all' });
+
+
+module.exports = mongoose.model('Course', CourseSchema);

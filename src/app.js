@@ -1,8 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
-var methodOverride = require('method-override')
+const  methodOverride = require('method-override')
 const path = require('path');
+const sortMiddleware = require('./app/middlewares/SortMiddleware'); 
 
 //database
 const db = require('./config/db');
@@ -17,8 +18,10 @@ app.use(
   }),
 ); // Nhận dữ liệu từ form
 app.use(express.json()); // Nhận dữ liệu từ code javascript
-
 app.use(methodOverride('_method'))
+
+//custom middleware
+app.use(sortMiddleware)
 
 //static
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,10 +34,7 @@ app.engine(
   'hbs',
   exphbs({
     extname: '.hbs',
-    helpers: {
-      sum: (a,b) => a+b,
-      formatDate: (value) => value ? new Date(value).toLocaleString(): new Date().toLocaleString()
-    }
+    helpers: require('./helpers/handlebars')
   }),
 );
 app.set('view engine', 'hbs');
